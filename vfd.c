@@ -76,12 +76,12 @@ vfd_init(void){
 /*  VFD_PORT(OUT) |= (VFD_QH_PIN);*/
 
   /* set 16 chars length of display */
-  tx_byte(0x00 & 0x07);
+  tx_byte(0x00 | 0x07);
   /* Enable auto increment (should never be turned off) */
-  tx_byte(0xF4 & 0x01);
+  tx_byte(0xF4 | 0x01);
   /* Set dimmer value + freq (128/fOSC) */
-  tx_byte(0x08 & 0x07);
-  tx_byte(0xF6 & 0x00);
+  tx_byte(0x08 | 0x07);
+  tx_byte(0xF6 | 0x00);
   /* Transmit user defined chars */
 /*  tx_bytevector(&vfd_user_defined_chars, VFD_USER_CHARS_LEN);*/
 }
@@ -154,9 +154,9 @@ void
 vfd_showhide(uint8_t show)
 {
   if(show) {
-    tx_byte(0xF0 & 0x01);
+    tx_byte(0xF0 | 0x01);
   } else {
-    tx_byte(0xF0 & 0x00);
+    tx_byte(0xF0 | 0x00);
   }
 }
 /* -------------------------------------------------------------------------- */
@@ -184,7 +184,7 @@ vfd_set_dimmer(uint8_t val)
   }
   
   current_dim = val;
-  tx_byte(0x08 & val);
+  tx_byte(0x08 | val);
 }
 /* -------------------------------------------------------------------------- */
 /* Set the decimal dot on a character. */
@@ -196,9 +196,9 @@ vfd_set_ddot(uint8_t val, uint8_t doton)
   }
 
   if(doton) {
-    tx_byte(0x10 & val);    // turn dot on
+    tx_byte(0x10 | val);    // turn dot on
   } else {
-    tx_byte(0x80 & val);    // turn dot off
+    tx_byte(0x80 | val);    // turn dot off
   }
 }
 /*---------------------------------------------------------------------------*/
